@@ -1,0 +1,91 @@
+version: '3.9'
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:16.1-alpine
+    command: postgres -c 'max_connections=60'
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "sh -c 'pg_isready -U test -d test'"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    environment:
+      POSTGRES_DATABASE: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+  currency-service:
+    container_name: currency-service
+    image: currency-service
+    build:
+      context: ./currency-service
+    ports:
+      - "8090:8090"
+
+  kotlin-tomcat:
+    container_name: kotlin-tomcat
+    build:
+      context: ./kotlin-tomcat
+    depends_on:
+      - currency-service
+      - postgres
+    image: kotlin-tomcat
+    network_mode: host
+    environment:
+      - SPRING_THREADS_VIRTUAL_ENABLED=true
+      - SERVER_PORT=8080
+
+  kotlin-coroutines:
+    container_name: kotlin-coroutines
+    build:
+      context: ./kotlin-coroutines
+    depends_on:
+      - currency-service
+      - postgres
+    image: kotlin-coroutines
+    network_mode: host
+    environment:
+      - SPRING_THREADS_VIRTUAL_ENABLED=false
+      - SERVER_PORT=8081
+
+  kotlin-webflux:
+    container_name: kotlin-webflux
+    build:
+      context: ./kotlin-webflux
+    depends_on:
+      - currency-service
+      - postgres
+    image: kotlin-webflux
+    network_mode: host
+    environment:
+      - SPRING_THREADS_VIRTUAL_ENABLED=false
+      - SERVER_PORT=8082
+
+  java-tomcat:
+    container_name: java-tomcat
+    build:
+      context: ./java-tomcat
+    depends_on:
+      - currency-service
+      - postgres
+    image: java-tomcat
+    network_mode: host
+    environment:
+      - SPRING_THREADS_VIRTUAL_ENABLED=true
+      - SERVER_PORT=8083
+
+  java-webflux:
+    container_name: java-webflux
+    build:
+      context: ./java-webflux
+    depends_on:
+      - currency-service
+      - postgres
+    image: java-webflux
+    network_mode: host
+    environment:
+      - SPRING_THREADS_VIRTUAL_ENABLED=false
+      - SERVER_PORT=8084
