@@ -1,7 +1,7 @@
-FROM gradle:8.7-alpine as builder
+FROM gradle:8.7-jdk21 as builder
 WORKDIR /app
 COPY . .
-RUN ./gradlew build -x test
+RUN gradle build -x test
 
 FROM amazoncorretto:21-alpine-jdk
 WORKDIR /app
