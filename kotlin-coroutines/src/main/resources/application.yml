@@ -1,0 +1,15 @@
+spring:
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/postgres
+    password: postgres
+    username: postgres
+    properties:
+      schema: transactions
+  application:
+    name: kotlin-coroutines
+
+logging:
+  level:
+    com:
+      ederfmatos: INFO
+    root: ERROR
