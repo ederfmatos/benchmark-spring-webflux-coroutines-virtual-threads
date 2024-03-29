@@ -1,0 +1,8 @@
+POST http://localhost:8080/transactions
+Content-Type: application/json
+
+{
+  "amount": 10.0,
+  "currency": "EURO",
+  "description": "Random Transaction"
+}

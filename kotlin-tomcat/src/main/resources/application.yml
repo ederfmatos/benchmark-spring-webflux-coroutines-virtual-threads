@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: kotlin-tomcat
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+    hikari:
+      schema: transactions
+  flyway:
+    default-schema: transactions
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+
+logging:
+  level:
+    com:
+      ederfmatos: INFO
+    root: ERROR
