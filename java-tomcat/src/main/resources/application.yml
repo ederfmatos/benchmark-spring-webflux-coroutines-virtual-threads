@@ -18,3 +18,22 @@ logging:
     com:
       ederfmatos: INFO
     root: ERROR
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,get-metrics,prometheus
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+        step: 5s
+  metrics:
+    distribution:
+      slo:
+        http: 5ms,10ms,25ms,50ms,100ms,200ms,300ms,400ms,500ms,1s,2s
+    tags:
+      application: ${spring.application.name}
+    enable:
+      jvm: 'true'
