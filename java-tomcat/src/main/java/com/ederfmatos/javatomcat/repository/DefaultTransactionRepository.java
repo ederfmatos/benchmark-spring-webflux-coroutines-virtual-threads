@@ -7,11 +7,13 @@ import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
+@ConditionalOnProperty(value = "repository.type", havingValue = "jdbc")
 public class DefaultTransactionRepository implements TransactionRepository {
     private final JdbcClient jdbcClient;
 

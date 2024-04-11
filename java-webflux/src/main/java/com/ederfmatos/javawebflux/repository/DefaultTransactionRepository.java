@@ -7,12 +7,15 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.r2dbc.core.DatabaseClient;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 @Repository
 @RequiredArgsConstructor
+@ConditionalOnProperty(value = "repository.type", havingValue = "r2dbc")
 public class DefaultTransactionRepository implements TransactionRepository {
     private final DatabaseClient databaseClient;
 
@@ -29,7 +32,8 @@ public class DefaultTransactionRepository implements TransactionRepository {
                 .bind("totalAmount", transaction.totalAmount())
                 .bind("currency", transaction.currency().name())
                 .bind("createdAt", Date.from(transaction.createdAt().toInstant()))
-                .then();
+                .then()
+                .subscribeOn(Schedulers.boundedElastic());
     }
 
     @Override
@@ -43,6 +47,7 @@ public class DefaultTransactionRepository implements TransactionRepository {
                 .bind("id", id)
                 .fetch()
                 .one()
+                .subscribeOn(Schedulers.boundedElastic())
                 .map(row -> new Transaction(
                         row.get("id").toString(),
                         row.get("description").toString(),

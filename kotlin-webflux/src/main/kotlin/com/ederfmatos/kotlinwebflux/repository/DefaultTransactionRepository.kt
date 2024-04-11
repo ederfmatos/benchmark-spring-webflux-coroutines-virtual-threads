@@ -2,8 +2,7 @@ package com.ederfmatos.kotlinwebflux.repository
 
 import com.ederfmatos.kotlinwebflux.entity.Transaction
 import com.ederfmatos.kotlinwebflux.enums.Currency
-import kotlinx.coroutines.reactor.awaitSingle
-import kotlinx.coroutines.reactor.awaitSingleOrNull
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.r2dbc.core.DatabaseClient
 import org.springframework.stereotype.Repository
 import reactor.core.publisher.Mono
@@ -13,6 +12,7 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 
 @Repository
+@ConditionalOnProperty(value = ["repository.type"], havingValue = "r2dbc")
 class DefaultTransactionRepository(private val databaseClient: DatabaseClient) : TransactionRepository {
 
     override fun create(transaction: Transaction): Mono<Void> {
@@ -41,6 +41,7 @@ class DefaultTransactionRepository(private val databaseClient: DatabaseClient) :
             .bind("id", id)
             .fetch()
             .one()
+            .subscribeOn(Schedulers.boundedElastic())
             .map { row ->
                 Transaction(
                     id = row["id"].toString(),

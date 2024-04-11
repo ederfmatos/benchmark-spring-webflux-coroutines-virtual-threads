@@ -4,6 +4,7 @@ import com.ederfmatos.kotlincoroutines.entity.Transaction
 import com.ederfmatos.kotlincoroutines.enums.Currency
 import kotlinx.coroutines.reactor.awaitSingle
 import kotlinx.coroutines.reactor.awaitSingleOrNull
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.r2dbc.core.DatabaseClient
 import org.springframework.stereotype.Repository
 import reactor.core.scheduler.Schedulers
@@ -12,6 +13,7 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 
 @Repository
+@ConditionalOnProperty(value = ["repository.type"], havingValue = "r2dbc")
 class DefaultTransactionRepository(private val databaseClient: DatabaseClient) : TransactionRepository {
 
     override suspend fun create(transaction: Transaction) {
@@ -41,6 +43,7 @@ class DefaultTransactionRepository(private val databaseClient: DatabaseClient) :
             .bind("id", id)
             .fetch()
             .one()
+            .subscribeOn(Schedulers.boundedElastic())
             .awaitSingle()
             .let { row ->
                 Transaction(

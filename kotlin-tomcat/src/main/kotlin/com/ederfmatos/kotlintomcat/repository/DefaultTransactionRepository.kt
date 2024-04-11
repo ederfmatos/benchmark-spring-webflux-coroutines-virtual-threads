@@ -2,15 +2,16 @@ package com.ederfmatos.kotlintomcat.repository
 
 import com.ederfmatos.kotlintomcat.entity.Transaction
 import com.ederfmatos.kotlintomcat.enums.Currency
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.jdbc.core.simple.JdbcClient
 import org.springframework.stereotype.Repository
 import java.sql.Timestamp
 import java.time.ZoneOffset
-import java.time.format.DateTimeFormatter
 import java.util.Date
 import kotlin.jvm.optionals.getOrNull
 
 @Repository
+@ConditionalOnProperty(value = ["repository.type"], havingValue = "jdbc", matchIfMissing = true)
 class DefaultTransactionRepository(private val jdbcClient: JdbcClient) : TransactionRepository {
 
     override fun create(transaction: Transaction) {
