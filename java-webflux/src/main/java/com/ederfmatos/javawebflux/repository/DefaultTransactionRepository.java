@@ -11,7 +11,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.r2dbc.core.DatabaseClient;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Schedulers;
 
 @Repository
 @RequiredArgsConstructor
@@ -32,8 +31,7 @@ public class DefaultTransactionRepository implements TransactionRepository {
                 .bind("totalAmount", transaction.totalAmount())
                 .bind("currency", transaction.currency().name())
                 .bind("createdAt", Date.from(transaction.createdAt().toInstant()))
-                .then()
-                .subscribeOn(Schedulers.boundedElastic());
+                .then();
     }
 
     @Override
@@ -47,7 +45,6 @@ public class DefaultTransactionRepository implements TransactionRepository {
                 .bind("id", id)
                 .fetch()
                 .one()
-                .subscribeOn(Schedulers.boundedElastic())
                 .map(row -> new Transaction(
                         row.get("id").toString(),
                         row.get("description").toString(),

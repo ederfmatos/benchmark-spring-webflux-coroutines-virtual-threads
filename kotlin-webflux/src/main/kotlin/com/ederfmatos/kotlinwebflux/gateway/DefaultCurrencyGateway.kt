@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToMono
 import reactor.core.publisher.Mono
-import reactor.core.scheduler.Schedulers
 import java.math.BigDecimal
 import java.util.UUID
 
@@ -25,7 +24,6 @@ class DefaultCurrencyGateway : CurrencyGateway {
             .header("X-Request-ID", UUID.randomUUID().toString())
             .retrieve()
             .bodyToMono<Map<Currency, BigDecimal>>()
-            .subscribeOn(Schedulers.boundedElastic())
             .doOnSuccess {
                 logger.info {
                     withMessage("Get currencies successfully")
