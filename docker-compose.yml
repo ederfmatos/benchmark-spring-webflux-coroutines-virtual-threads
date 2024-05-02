@@ -5,6 +5,7 @@ services:
     container_name: postgres
     image: postgres:16.1-alpine
     command: postgres -c 'max_connections=60'
+    network_mode: host
     ports:
       - "5432:5432"
     healthcheck:
@@ -17,9 +18,28 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
 
+  prometheus:
+    image: prom/prometheus:latest
+    user: "root:root"
+    container_name: prometheus
+    network_mode: host
+    volumes:
+      - ./observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+      - '--web.enable-remote-write-receiver'
+      - '--enable-feature=exemplar-storage'
+    ports:
+      - "9090:9090"
+
   currency-service:
     container_name: currency-service
     image: currency-service
+    network_mode: host
     build:
       context: ./currency-service
     ports:
@@ -27,65 +47,190 @@ services:
 
   kotlin-tomcat:
     container_name: kotlin-tomcat
+    image: kotlin-tomcat
+    deploy:
+      resources:
+        limits:
+          memory: "1024mb"
     build:
       context: ./kotlin-tomcat
     depends_on:
       - currency-service
       - postgres
-    image: kotlin-tomcat
     network_mode: host
     environment:
-      - SPRING_THREADS_VIRTUAL_ENABLED=true
+      - SPRING_THREADS_VIRTUAL_ENABLED=false
       - SERVER_PORT=8080
+      - REPOSITORY_TYPE=fixed
+      - SPRING_APPLICATION_NAME=kotlin-tomcat
 
   kotlin-coroutines:
     container_name: kotlin-coroutines
+    image: kotlin-coroutines
+    deploy:
+      resources:
+        limits:
+          memory: "1024mb"
     build:
       context: ./kotlin-coroutines
     depends_on:
       - currency-service
       - postgres
-    image: kotlin-coroutines
     network_mode: host
     environment:
       - SPRING_THREADS_VIRTUAL_ENABLED=false
       - SERVER_PORT=8081
+      - REPOSITORY_TYPE=fixed
+      - SPRING_APPLICATION_NAME=kotlin-coroutines
 
   kotlin-webflux:
     container_name: kotlin-webflux
+    image: kotlin-webflux
+    deploy:
+      resources:
+        limits:
+          memory: "1024mb"
     build:
       context: ./kotlin-webflux
     depends_on:
       - currency-service
       - postgres
-    image: kotlin-webflux
     network_mode: host
     environment:
       - SPRING_THREADS_VIRTUAL_ENABLED=false
       - SERVER_PORT=8082
+      - REPOSITORY_TYPE=fixed
+      - SPRING_APPLICATION_NAME=kotlin-webflux
 
   java-tomcat:
     container_name: java-tomcat
+    image: java-tomcat
+    deploy:
+      resources:
+        limits:
+          memory: "1024mb"
     build:
       context: ./java-tomcat
     depends_on:
       - currency-service
       - postgres
-    image: java-tomcat
     network_mode: host
     environment:
-      - SPRING_THREADS_VIRTUAL_ENABLED=true
+      - SPRING_THREADS_VIRTUAL_ENABLED=false
       - SERVER_PORT=8083
+      - REPOSITORY_TYPE=fixed
+      - SPRING_APPLICATION_NAME=java-tomcat
 
   java-webflux:
     container_name: java-webflux
+    image: java-webflux
+    deploy:
+      resources:
+        limits:
+          memory: "1024mb"
     build:
       context: ./java-webflux
     depends_on:
       - currency-service
       - postgres
-    image: java-webflux
     network_mode: host
     environment:
       - SPRING_THREADS_VIRTUAL_ENABLED=false
       - SERVER_PORT=8084
+      - REPOSITORY_TYPE=fixed
+      - SPRING_APPLICATION_NAME=java-webflux
+
+  kotlin-tomcat-virtual:
+    container_name: kotlin-tomcat-virtual
+    image: kotlin-tomcat-virtual
+    deploy:
+      resources:
+        limits:
+          memory: "1024mb"
+    build:
+      context: ./kotlin-tomcat
+    depends_on:
+      - currency-service
+      - postgres
+    network_mode: host
+    environment:
+      - SPRING_THREADS_VIRTUAL_ENABLED=true
+      - SERVER_PORT=8080
+      - REPOSITORY_TYPE=fixed
+      - SPRING_APPLICATION_NAME=kotlin-tomcat-virtual
+
+  kotlin-coroutines-virtual:
+    container_name: kotlin-coroutines-virtual
+    image: kotlin-coroutines-virtual
+    deploy:
+      resources:
+        limits:
+          memory: "1024mb"
+    build:
+      context: ./kotlin-coroutines
+    depends_on:
+      - currency-service
+      - postgres
+    network_mode: host
+    environment:
+      - SPRING_THREADS_VIRTUAL_ENABLED=true
+      - SERVER_PORT=8081
+      - REPOSITORY_TYPE=fixed
+      - SPRING_APPLICATION_NAME=kotlin-coroutines-virtual
+
+  kotlin-webflux-virtual:
+    container_name: kotlin-webflux-virtual
+    image: kotlin-webflux-virtual
+    deploy:
+      resources:
+        limits:
+          memory: "1024mb"
+    build:
+      context: ./kotlin-webflux
+    depends_on:
+      - currency-service
+      - postgres
+    network_mode: host
+    environment:
+      - SPRING_THREADS_VIRTUAL_ENABLED=true
+      - SERVER_PORT=8082
+      - REPOSITORY_TYPE=fixed
+      - SPRING_APPLICATION_NAME=kotlin-webflux-virtual
+
+  java-tomcat-virtual:
+    container_name: java-tomcat-virtual
+    image: java-tomcat-virtual
+    deploy:
+      resources:
+        limits:
+          memory: "1024mb"
+    build:
+      context: ./java-tomcat
+    depends_on:
+      - currency-service
+      - postgres
+    network_mode: host
+    environment:
+      - SPRING_THREADS_VIRTUAL_ENABLED=true
+      - SERVER_PORT=8083
+      - REPOSITORY_TYPE=fixed
+      - SPRING_APPLICATION_NAME=java-tomcat-virtual
+
+  java-webflux-virtual:
+    container_name: java-webflux-virtual
+    image: java-webflux-virtual
+    deploy:
+      resources:
+        limits:
+          memory: "1024mb"
+    build:
+      context: ./java-webflux
+    depends_on:
+      - currency-service
+      - postgres
+    network_mode: host
+    environment:
+      - SPRING_THREADS_VIRTUAL_ENABLED=true
+      - SERVER_PORT=8084
+      - REPOSITORY_TYPE=fixed
+      - SPRING_APPLICATION_NAME=java-webflux-virtual
