@@ -1,0 +1,34 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Awesome go-echarts</title>
+    <script src="https://go-echarts.github.io/go-echarts-assets/assets/echarts.min.js"></script>
+    <script src="https://go-echarts.github.io/go-echarts-assets/assets/themes/walden.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <div class="item" id="KbLYWJNyehPC" style="width:900px;height:500px;"></div>
+</div>
+
+<script type="text/javascript">
+    "use strict";
+    let goecharts_KbLYWJNyehPC = echarts.init(document.getElementById('KbLYWJNyehPC'), "walden");
+    let option_KbLYWJNyehPC = {"animation":true,"backgroundColor":"white","grid":[{"left":"1%","top":"5%","bottom":"1%","containLabel":true}],"legend":{"show":false,"type":""},"series":[{"name":"Percentual de Tempo de resposta POST transactions p95","type":"bar","smooth":false,"connectNulls":false,"showSymbol":false,"waveAnimation":false,"renderLabelForZeroData":false,"selectedMode":false,"animation":false,"data":[{"name":"Java com Tomcat","value":"200.48"},{"name":"Kotlin com Tomcat","value":"203.00"},{"name":"Kotlin com Webflux","value":"276.37"},{"name":"Kotlin com Coroutines","value":"279.09"},{"name":"Kotlin com Webflux com Threads Virtuais","value":"281.03"},{"name":"Java com Webflux","value":"281.79"},{"name":"Java com Webflux com Threads Virtuais","value":"282.87"},{"name":"Kotlin com Coroutines com Threads Virtuais","value":"284.77"},{"name":"Java com Tomcat com Threads Virtuais","value":"300.25"},{"name":"Kotlin com Tomcat com Threads Virtuais","value":"305.82"}],"label":{"show":true,"position":"right"}}],"title":{"text":"Percentual de Tempo de resposta POST transactions p95"},"tooltip":{"show":false},"xAxis":[{}],"yAxis":[{"data":["Java com Tomcat","Kotlin com Tomcat","Kotlin com Webflux","Kotlin com Coroutines","Kotlin com Webflux com Threads Virtuais","Java com Webflux","Java com Webflux com Threads Virtuais","Kotlin com Coroutines com Threads Virtuais","Java com Tomcat com Threads Virtuais","Kotlin com Tomcat com Threads Virtuais"]}]}
+;
+    
+	let action_KbLYWJNyehPC = {"areas":{},"type":""}
+;
+    
+    goecharts_KbLYWJNyehPC.setOption(option_KbLYWJNyehPC);
+ 	goecharts_KbLYWJNyehPC.dispatchAction(action_KbLYWJNyehPC);
+</script>
+
+<style>
+    .container {margin-top:30px; display: flex;justify-content: center;align-items: center;}
+    .item {margin: auto;}
+</style>
+</body>
+</html>

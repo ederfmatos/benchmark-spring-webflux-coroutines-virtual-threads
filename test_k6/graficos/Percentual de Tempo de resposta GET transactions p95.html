@@ -1,0 +1,34 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Awesome go-echarts</title>
+    <script src="https://go-echarts.github.io/go-echarts-assets/assets/echarts.min.js"></script>
+    <script src="https://go-echarts.github.io/go-echarts-assets/assets/themes/walden.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <div class="item" id="heqMBuLCifig" style="width:900px;height:500px;"></div>
+</div>
+
+<script type="text/javascript">
+    "use strict";
+    let goecharts_heqMBuLCifig = echarts.init(document.getElementById('heqMBuLCifig'), "walden");
+    let option_heqMBuLCifig = {"animation":true,"backgroundColor":"white","grid":[{"left":"1%","top":"5%","bottom":"1%","containLabel":true}],"legend":{"show":false,"type":""},"series":[{"name":"Percentual de Tempo de resposta GET transactions p95","type":"bar","smooth":false,"connectNulls":false,"showSymbol":false,"waveAnimation":false,"renderLabelForZeroData":false,"selectedMode":false,"animation":false,"data":[{"name":"Java com Tomcat","value":"122.23"},{"name":"Kotlin com Tomcat","value":"125.11"},{"name":"Java com Tomcat com Threads Virtuais","value":"135.98"},{"name":"Kotlin com Webflux","value":"139.38"},{"name":"Java com Webflux","value":"140.78"},{"name":"Kotlin com Webflux com Threads Virtuais","value":"143.40"},{"name":"Kotlin com Tomcat com Threads Virtuais","value":"143.90"},{"name":"Kotlin com Coroutines com Threads Virtuais","value":"145.18"},{"name":"Java com Webflux com Threads Virtuais","value":"145.40"},{"name":"Kotlin com Coroutines","value":"145.70"}],"label":{"show":true,"position":"right"}}],"title":{"text":"Percentual de Tempo de resposta GET transactions p95"},"tooltip":{"show":false},"xAxis":[{}],"yAxis":[{"data":["Java com Tomcat","Kotlin com Tomcat","Java com Tomcat com Threads Virtuais","Kotlin com Webflux","Java com Webflux","Kotlin com Webflux com Threads Virtuais","Kotlin com Tomcat com Threads Virtuais","Kotlin com Coroutines com Threads Virtuais","Java com Webflux com Threads Virtuais","Kotlin com Coroutines"]}]}
+;
+    
+	let action_heqMBuLCifig = {"areas":{},"type":""}
+;
+    
+    goecharts_heqMBuLCifig.setOption(option_heqMBuLCifig);
+ 	goecharts_heqMBuLCifig.dispatchAction(action_heqMBuLCifig);
+</script>
+
+<style>
+    .container {margin-top:30px; display: flex;justify-content: center;align-items: center;}
+    .item {margin: auto;}
+</style>
+</body>
+</html>

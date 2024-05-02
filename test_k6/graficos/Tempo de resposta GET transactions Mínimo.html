@@ -1,0 +1,34 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Awesome go-echarts</title>
+    <script src="https://go-echarts.github.io/go-echarts-assets/assets/echarts.min.js"></script>
+    <script src="https://go-echarts.github.io/go-echarts-assets/assets/themes/walden.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <div class="item" id="IWCKINdWpoIP" style="width:900px;height:500px;"></div>
+</div>
+
+<script type="text/javascript">
+    "use strict";
+    let goecharts_IWCKINdWpoIP = echarts.init(document.getElementById('IWCKINdWpoIP'), "walden");
+    let option_IWCKINdWpoIP = {"animation":true,"backgroundColor":"white","grid":[{"left":"1%","top":"5%","bottom":"1%","containLabel":true}],"legend":{"show":false,"type":""},"series":[{"name":"Tempo de resposta GET transactions Mínimo","type":"bar","smooth":false,"connectNulls":false,"showSymbol":false,"waveAnimation":false,"renderLabelForZeroData":false,"selectedMode":false,"animation":false,"data":[{"name":"Java com Tomcat","value":"20.29"},{"name":"Java com Tomcat com Threads Virtuais","value":"20.30"},{"name":"Java com Webflux com Threads Virtuais","value":"20.30"},{"name":"Kotlin com Webflux com Threads Virtuais","value":"20.30"},{"name":"Java com Webflux","value":"20.31"},{"name":"Kotlin com Coroutines com Threads Virtuais","value":"20.31"},{"name":"Kotlin com Coroutines","value":"20.32"},{"name":"Kotlin com Webflux","value":"20.32"},{"name":"Kotlin com Tomcat","value":"20.32"},{"name":"Kotlin com Tomcat com Threads Virtuais","value":"20.35"}],"label":{"show":true,"position":"right"}}],"title":{"text":"Tempo de resposta GET transactions Mínimo"},"tooltip":{"show":false},"xAxis":[{}],"yAxis":[{"data":["Java com Tomcat","Java com Tomcat com Threads Virtuais","Java com Webflux com Threads Virtuais","Kotlin com Webflux com Threads Virtuais","Java com Webflux","Kotlin com Coroutines com Threads Virtuais","Kotlin com Coroutines","Kotlin com Webflux","Kotlin com Tomcat","Kotlin com Tomcat com Threads Virtuais"]}]}
+;
+    
+	let action_IWCKINdWpoIP = {"areas":{},"type":""}
+;
+    
+    goecharts_IWCKINdWpoIP.setOption(option_IWCKINdWpoIP);
+ 	goecharts_IWCKINdWpoIP.dispatchAction(action_IWCKINdWpoIP);
+</script>
+
+<style>
+    .container {margin-top:30px; display: flex;justify-content: center;align-items: center;}
+    .item {margin: auto;}
+</style>
+</body>
+</html>
